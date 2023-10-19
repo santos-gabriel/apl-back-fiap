@@ -101,7 +101,7 @@ public class PedidoRepositoryAdapter implements IPedidoRepositoryPort {
     @Override
     @Transactional(readOnly = true)
     public List<Pedido> buscarPedidosPorClienteEStatus(UUID idCliente, StatusPedido statusPedido) {
-        return this.pedidoRepository.findByIdClienteAndStatusPedido(idCliente, statusPedido).stream()
+        return this.pedidoRepository.findByIdClienteAndStatusPedido(idCliente, statusPedido.toString()).stream()
                 .map(PedidoEntity::to)
                 .collect(Collectors.toList());
     }

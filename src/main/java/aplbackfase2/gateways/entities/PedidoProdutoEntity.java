@@ -15,26 +15,26 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "PEDIDO_PRODUTOS")
+@Table(name = "pedido_produtos")
 public class PedidoProdutoEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID_PED_PROD")
+    @Column(name = "id")
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_PEDIDO")
+    @JoinColumn(name = "id_pedido")
     private PedidoEntity pedido;
 
     @ManyToOne
-    @JoinColumn(name = "ID_PRODUTO")
+    @JoinColumn(name = "id_produto")
     private ProdutoEntity produto;
 
-    @Column(name = "V_PRODUTO")
+    @Column(name = "v_produto")
     private BigDecimal valorProduto;
 
-    @Column(name = "TXT_OBS_PRODUTO")
+    @Column(name = "txt_obs_produto")
     private String observacaoProduto;
 
     public static PedidoProduto to(PedidoProdutoEntity pedidoProdutoEntity) {

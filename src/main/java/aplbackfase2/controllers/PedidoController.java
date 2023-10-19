@@ -1,5 +1,7 @@
 package aplbackfase2.controllers;
 
+import aplbackfase2.entities.Cliente;
+import aplbackfase2.interfaces.usecases.IClienteUseCasePort;
 import aplbackfase2.utils.enums.StatusPedido;
 import aplbackfase2.adapters.PedidoDTO;
 import aplbackfase2.adapters.PedidoProdutoDTO;
@@ -27,13 +29,18 @@ public class PedidoController {
 
     private final IPedidoUseCasePort pedidoUseCasePort;
     private final IPedidoProdutoUseCasePort pedidoProdutoUseCasePort;
+    private final IClienteUseCasePort clienteUseCasePort;
 
     @PostMapping("/pedido")
     public ResponseEntity<PedidoDTO> cadastrar(@RequestBody @NotNull PedidoRequest request) {
         if (request.getIdCliente() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Pedido pedido = this.pedidoUseCasePort.cadastrar(request.from(request));
+        Optional<Cliente> cliente = clienteUseCasePort.buscarPorId(request.getIdCliente());
+        if (!cliente.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Pedido pedido = this.pedidoUseCasePort.cadastrar(request.from(request, cliente.get()));
         if (pedido != null) {
             return new ResponseEntity<>(PedidoDTO.from(pedido), HttpStatus.OK);
         } else {

@@ -26,20 +26,26 @@ public class ProdutoEntity {
     @GeneratedValue
     private UUID idProduto;
 
+    @Column(name = "txt_nome_produto")
     @Embedded
     private NomeProduto nomeProduto;
+
+    @Column(name = "txt_descricao_produto")
     @Embedded
     private DescricaoProduto descricaoProduto;
 
     private String tipoProduto;
 
+    @Column(name = "v_produto")
     @Embedded
     private ValorProduto valorProduto;
 
 
+    @Column(name = "dt_h_atualizacao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtualizacao;
 
+    @Column(name = "dt_h_criacao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
 
