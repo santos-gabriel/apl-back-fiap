@@ -41,6 +41,7 @@ public class ProdutoEntity {
     private Date dataAtualizacao;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "dt_h_inclusao")
     private Date dataCriacao;
 
     public Produto to(ProdutoEntity produtoEntity) {
