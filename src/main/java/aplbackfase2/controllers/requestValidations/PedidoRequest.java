@@ -1,5 +1,6 @@
 package aplbackfase2.controllers.requestValidations;
 
+import aplbackfase2.entities.Cliente;
 import aplbackfase2.entities.Pedido;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,10 +20,10 @@ public class PedidoRequest {
     @NotNull(message = "id cliente não pode estar vazio")
     private UUID idCliente;
 
-    public Pedido from(PedidoRequest request) {
+    public Pedido from(PedidoRequest request, Cliente cliente) {
 
         return Pedido.builder()
-                .idCliente(request.getIdCliente())
+                .cliente(cliente)
                 .build();
     }
 }

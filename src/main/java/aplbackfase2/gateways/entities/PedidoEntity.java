@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "pedidos")
@@ -28,36 +27,39 @@ public class PedidoEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID_PEDIDO")
+    @Column(name = "id")
     private UUID idPedido;
 
-    @Column(name = "ID_CLIENTE")
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
     @NotNull
-    private UUID idCliente;
+    private ClienteEntity cliente;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "ID_STATUS")
+    @Column(name = "id_status")
     @NotNull
     private StatusPedido statusPedido;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "ID_STATUS_PAGAMENTO")
+    @Column(name = "id_status_pagamento")
     @NotNull
     private StatusPagamento statusPagamento;
 
-    @Column(name = "V_PEDIDO")
+    @Column(name = "v_pedido")
     private BigDecimal valorPedido;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DT_H_INC")
+    @Column(name = "dt_h_inclusao")
     private Date dataInclusao;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DT_H_ATC")
+    @Column(name = "dt_h_atualizacao")
     private Date dataAtualizacao;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PedidoProdutoEntity> produtos;
+
+    public PedidoEntity() {}
 
     public Pedido to() {
         List<PedidoProduto> pedidoProdutos = null;
@@ -68,7 +70,7 @@ public class PedidoEntity {
         }
         return Pedido.builder()
                 .idPedido(this.idPedido)
-                .idCliente(this.idCliente)
+                .cliente(new ClienteEntity().to(this.cliente))
                 .statusPedido(this.statusPedido)
                 .statusPagamento(this.statusPagamento)
                 .valorPedido(this.valorPedido)
@@ -81,7 +83,7 @@ public class PedidoEntity {
     public PedidoEntity from(Pedido pedido, boolean isCreated) {
         PedidoEntityBuilder pedidoEntityBuilder = PedidoEntity.builder()
                 .idPedido(pedido.getIdPedido())
-                .idCliente(pedido.getIdCliente())
+                .cliente(new ClienteEntity().from(pedido.getCliente()))
                 .valorPedido(pedido.getValorPedido())
                 .dataInclusao(pedido.getDataInclusao())
                 .dataAtualizacao(pedido.getDataAtualizacao());

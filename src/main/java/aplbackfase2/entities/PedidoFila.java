@@ -12,11 +12,11 @@ import java.util.UUID;
 @Builder
 public class PedidoFila {
 
-    private UUID idPedido;
+    private Pedido pedido;
     private Long numeroNaFila;
 
     public PedidoFila (Pedido pedido) {
-        this.idPedido = pedido.getIdPedido();
+        this.pedido = pedido;
     }
 
 }

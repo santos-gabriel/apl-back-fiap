@@ -26,23 +26,30 @@ public class ProdutoEntity {
     @GeneratedValue
     private UUID idProduto;
 
+    @Column(name = "txt_nome_produto")
     @Embedded
     private NomeProduto nomeProduto;
+
+    @Column(name = "txt_descricao_produto")
     @Embedded
     private DescricaoProduto descricaoProduto;
 
     private String tipoProduto;
 
+    @Column(name = "v_produto")
     @Embedded
     private ValorProduto valorProduto;
 
 
+    @Column(name = "dt_h_atualizacao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtualizacao;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dt_h_inclusao")
     private Date dataCriacao;
+
+    private Boolean ativo;
 
     public Produto to(ProdutoEntity produtoEntity) {
         return Produto.builder()
@@ -51,6 +58,7 @@ public class ProdutoEntity {
                 .descricaoProduto(produtoEntity.getDescricaoProduto())
                 .tipoProduto(TipoProduto.fromCodigo(produtoEntity.getTipoProduto()))
                 .valorProduto(produtoEntity.getValorProduto())
+                .ativo(produtoEntity.getAtivo())
                 .build();
     }
 
@@ -59,10 +67,12 @@ public class ProdutoEntity {
                 .nomeProduto(produto.getNomeProduto())
                 .descricaoProduto(produto.getDescricaoProduto())
                 .tipoProduto(produto.getTipoProduto().getCodigo())
-                .valorProduto(produto.getValorProduto());
+                .valorProduto(produto.getValorProduto())
+                .ativo(produto.getAtivo());
 
         if(isCreated) {
             produtoEntityBuilder.dataCriacao(this.obterDataHoraAtual());
+            produtoEntityBuilder.ativo(true);
         }
 
             produtoEntityBuilder.dataAtualizacao(this.obterDataHoraAtual());

@@ -1,10 +1,13 @@
 package aplbackfase2.gateways;
 
+import aplbackfase2.entities.PedidoFila;
 import aplbackfase2.exceptions.entities.PedidoNaoEncontradoException;
 import aplbackfase2.exceptions.entities.PedidoOperacaoNaoSuportadaException;
 import aplbackfase2.gateways.entities.PedidoEntity;
+import aplbackfase2.gateways.entities.PedidoFilaEntity;
 import aplbackfase2.gateways.entities.PedidoProdutoEntity;
 import aplbackfase2.interfaces.gateways.IPedidoRepositoryPort;
+import aplbackfase2.interfaces.repositories.FilaRepository;
 import aplbackfase2.interfaces.repositories.PedidoProdutoRepository;
 import aplbackfase2.interfaces.repositories.PedidoRepository;
 import aplbackfase2.entities.Pedido;
@@ -25,6 +28,7 @@ public class PedidoRepositoryAdapter implements IPedidoRepositoryPort {
 
     private final PedidoRepository pedidoRepository;
     private final PedidoProdutoRepository pedidoProdutoRepository;
+    private final FilaRepository filaRepository;
 
 
     @Override
@@ -61,6 +65,12 @@ public class PedidoRepositoryAdapter implements IPedidoRepositoryPort {
         pedidoEntity.getProdutos().forEach(pedidoProdutoEntity -> {
             this.pedidoProdutoRepository.deleteById(pedidoProdutoEntity.getId());
         });
+
+        Optional<PedidoFilaEntity> fila = this.filaRepository.findByIdPedido(idPedido);
+        if (fila.isPresent()) {
+            this.filaRepository.deleteById(fila.get().getNumeroNaFila());
+        }
+
 
         this.pedidoRepository.delete(pedidoEntity);
     }
@@ -101,7 +111,7 @@ public class PedidoRepositoryAdapter implements IPedidoRepositoryPort {
     @Override
     @Transactional(readOnly = true)
     public List<Pedido> buscarPedidosPorClienteEStatus(UUID idCliente, StatusPedido statusPedido) {
-        return this.pedidoRepository.findByIdClienteAndStatusPedido(idCliente, statusPedido).stream()
+        return this.pedidoRepository.findByIdClienteAndStatusPedido(idCliente, statusPedido.toString()).stream()
                 .map(PedidoEntity::to)
                 .collect(Collectors.toList());
     }

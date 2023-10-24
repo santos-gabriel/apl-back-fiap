@@ -22,10 +22,16 @@ public class ClienteEntity {
     @Id
     @GeneratedValue
     private UUID id;
+
+    @Column(name = "txt_nome")
     @Embedded
     private Nome nome;
+
+    @Column(name = "txt_cpf")
     @Embedded
     private Cpf cpf;
+
+    @Column(name = "txt_email")
     @Embedded
     private Email email;
 

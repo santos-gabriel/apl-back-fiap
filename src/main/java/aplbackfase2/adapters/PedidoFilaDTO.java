@@ -24,7 +24,7 @@ public class PedidoFilaDTO {
     public PedidoFilaDTO from(PedidoFila pedidoFila) {
         return PedidoFilaDTO.builder()
                 .numeroNaFila(pedidoFila.getNumeroNaFila())
-                .idPedido(pedidoFila.getIdPedido())
+                .idPedido(pedidoFila.getPedido().getIdPedido())
                 .build();
     }
 }
