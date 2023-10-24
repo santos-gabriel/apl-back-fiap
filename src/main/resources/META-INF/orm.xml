@@ -12,7 +12,7 @@
                     WHEN 'E' THEN 2
                     WHEN 'R' THEN 3
                     WHEN 'A' THEN 4
-                    END ASC, dt_h_inc ASC
+                    END ASC, dt_h_inclusao ASC
             ]]>
         </query>
     </named-query>

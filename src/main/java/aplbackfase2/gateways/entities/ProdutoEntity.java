@@ -45,10 +45,11 @@ public class ProdutoEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataAtualizacao;
 
-    @Column(name = "dt_h_criacao")
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dt_h_inclusao")
     private Date dataCriacao;
+
+    private Boolean ativo;
 
     public Produto to(ProdutoEntity produtoEntity) {
         return Produto.builder()
@@ -57,6 +58,7 @@ public class ProdutoEntity {
                 .descricaoProduto(produtoEntity.getDescricaoProduto())
                 .tipoProduto(TipoProduto.fromCodigo(produtoEntity.getTipoProduto()))
                 .valorProduto(produtoEntity.getValorProduto())
+                .ativo(produtoEntity.getAtivo())
                 .build();
     }
 
@@ -65,10 +67,12 @@ public class ProdutoEntity {
                 .nomeProduto(produto.getNomeProduto())
                 .descricaoProduto(produto.getDescricaoProduto())
                 .tipoProduto(produto.getTipoProduto().getCodigo())
-                .valorProduto(produto.getValorProduto());
+                .valorProduto(produto.getValorProduto())
+                .ativo(produto.getAtivo());
 
         if(isCreated) {
             produtoEntityBuilder.dataCriacao(this.obterDataHoraAtual());
+            produtoEntityBuilder.ativo(true);
         }
 
             produtoEntityBuilder.dataAtualizacao(this.obterDataHoraAtual());

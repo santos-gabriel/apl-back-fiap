@@ -37,7 +37,7 @@ public class PedidoController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Optional<Cliente> cliente = clienteUseCasePort.buscarPorId(request.getIdCliente());
-        if (!cliente.isEmpty()) {
+        if (!cliente.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Pedido pedido = this.pedidoUseCasePort.cadastrar(request.from(request, cliente.get()));
