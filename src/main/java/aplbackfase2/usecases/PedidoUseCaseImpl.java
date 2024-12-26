@@ -31,7 +31,7 @@ public class PedidoUseCaseImpl implements IPedidoUseCasePort {
 
     @Override
     public Pedido cadastrar(Pedido pedido) {
-        UUID idCliente = pedido.getIdCliente();
+        UUID idCliente = pedido.getCliente().getId();
         List<Pedido> pedidosAtivos = buscarPedidosPorClienteEStatus(idCliente, StatusPedido.A);
         if (pedidosAtivos.isEmpty()) {
             return pedidoRepositoryPort.cadastrar(pedido);

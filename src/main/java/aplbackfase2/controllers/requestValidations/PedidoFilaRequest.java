@@ -1,5 +1,6 @@
 package aplbackfase2.controllers.requestValidations;
 
+import aplbackfase2.entities.Cliente;
 import aplbackfase2.utils.enums.StatusPedido;
 import aplbackfase2.entities.Pedido;
 import lombok.AllArgsConstructor;
@@ -39,10 +40,10 @@ public class PedidoFilaRequest {
     @NotEmpty(message = "status do pedido não pode estar vazio")
     private List<ProdutoRequest> itens;
 
-    public Pedido toPedido() {
+    public Pedido toPedido(Cliente cliente) {
         return Pedido.builder()
                 .idPedido(this.getIdPedido())
-                .idCliente(this.getIdCliente())
+                .cliente(cliente)
                 .dataInclusao(this.getDataCriacao())
                 .dataAtualizacao(this.getDataAtualizacao())
                 .statusPedido(this.getStatus())

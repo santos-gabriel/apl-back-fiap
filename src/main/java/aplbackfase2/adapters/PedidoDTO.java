@@ -37,7 +37,7 @@ public class PedidoDTO {
         }
         return PedidoDTO.builder()
                 .idPedido(pedido.getIdPedido())
-                .idCliente(pedido.getIdCliente())
+                .idCliente(pedido.getCliente().getId())
                 .pedidoProdutos(pedidoProdutoDTO)
                 .statusPedido(pedido.getStatusPedido())
                 .statusPagamento(pedido.getStatusPagamento())

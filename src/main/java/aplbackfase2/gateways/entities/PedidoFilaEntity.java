@@ -14,24 +14,30 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "fila")
+@Table(
+        name = "fila",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"numero_na_fila", "id_pedido"})
+)
 public class PedidoFilaEntity {
 
     @Id
     @GeneratedValue
+    @Column(name = "numero_na_fila")
     private Long numeroNaFila;
 
-    private UUID idPedido;
+    @ManyToOne
+    @JoinColumn(name = "id_pedido")
+    private PedidoEntity pedido;
 
     public PedidoFilaEntity(PedidoFila pedidoFila) {
-        this.idPedido = pedidoFila.getIdPedido();
+        this.pedido = new PedidoEntity().from(pedidoFila.getPedido(), false);
         this.numeroNaFila = pedidoFila.getNumeroNaFila();
     }
 
     public PedidoFila toPedidoFila() {
         var pedidoFila = new PedidoFila();
         pedidoFila.setNumeroNaFila(this.numeroNaFila);
-        pedidoFila.setIdPedido(this.idPedido);
+        pedidoFila.setPedido(this.pedido.to());
         return pedidoFila;
     }
 }

@@ -2,6 +2,9 @@ package aplbackfase2.controllers;
 
 import aplbackfase2.adapters.PedidoFilaDTO;
 import aplbackfase2.controllers.requestValidations.PedidoFilaRequest;
+import aplbackfase2.entities.Cliente;
+import aplbackfase2.exceptions.entities.ClienteNaoEncontradoException;
+import aplbackfase2.interfaces.usecases.IClienteUseCasePort;
 import aplbackfase2.interfaces.usecases.IFilaUseCasePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +29,16 @@ public class FilaController {
 
     @Autowired
     private IFilaUseCasePort filaUseCasePort;
+    @Autowired
+    private IClienteUseCasePort clienteUseCasePort;
 
     @PostMapping("/fila")
     public ResponseEntity<?> inserePedidoNaFila(@RequestBody @NotNull PedidoFilaRequest pedidoFilaRequest) {
         // TODO - passar o pedidoDTO (quando tiver) junto com a responsta
 
         try {
-            var pedidoFila = filaUseCasePort.inserirPedidoNaFila(pedidoFilaRequest.toPedido());
+            Cliente cliente = clienteUseCasePort.buscarPorId(pedidoFilaRequest.getIdCliente()).orElseThrow(() -> new ClienteNaoEncontradoException());
+            var pedidoFila = filaUseCasePort.inserirPedidoNaFila(pedidoFilaRequest.toPedido(cliente));
             var pedidoFilaDTO = new PedidoFilaDTO().from(pedidoFila);
             return ResponseEntity.ok().body(pedidoFilaDTO);
         } catch (RuntimeException e) {

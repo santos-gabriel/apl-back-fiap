@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: apl
-          image: fiapg58/apl-back:v1
+          image: fiapg58/apl-back:v2
           imagePullPolicy: "IfNotPresent"
           env:
             - name: spring.datasource.username

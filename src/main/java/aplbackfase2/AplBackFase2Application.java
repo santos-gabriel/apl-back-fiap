@@ -187,7 +187,7 @@ public class AplBackFase2Application {
 			Cliente cliente = clientes.get(i);
 			Pedido pedido = pedidoUseCasePort.cadastrar(
 				Pedido.builder()
-				.idCliente(cliente.getId())
+				.cliente(cliente)
 				.statusPedido(StatusPedido.A)
 				.statusPagamento(StatusPagamento.PENDENTE)
 				.dataInclusao(new Date())

@@ -11,5 +11,5 @@ import java.util.UUID;
 
 @Repository
 public interface ProdutoRepository extends JpaRepository<ProdutoEntity, UUID> {
-    Optional<List<ProdutoEntity>> findAllByTipoProduto(String tipoProduto);
+    Optional<List<ProdutoEntity>> findAllByTipoProdutoAndAtivo(String tipoProduto, Boolean ativo);
 }

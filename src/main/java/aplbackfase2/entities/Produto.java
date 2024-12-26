@@ -18,4 +18,5 @@ public final class Produto {
     private DescricaoProduto descricaoProduto;
     private TipoProduto tipoProduto;
     private ValorProduto valorProduto;
+    private Boolean ativo;
 }
